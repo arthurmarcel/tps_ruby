@@ -3,7 +3,14 @@ require 'spec_helper'
 describe AuthApi do 
 
 	class User
-	
+		def initialize
+			@list = {}
+			@list["toto"] = "1234"
+		end
+		
+		def find(login)
+			return @list.keys.contains(login)
+		end
 	end
  
   def app 
@@ -30,7 +37,7 @@ describe AuthApi do
   context "when no HTTP_AUTHORIZE header" do
 		it "should do nothing" do
 			get '/'
-			last_response.status.should === 404
+			last_response.status.should == 404
 		end
 	end
 	
@@ -48,7 +55,8 @@ describe AuthApi do
 		
 		it "should decode the login and the password" do
 			AuthApi.should_receive(:decode_http_authorize).with(["toto:1234"].pack('m'))
-			get '/'	
+			get '/'
+			subject.decodedLogPass.should == ['toto', '1234']	
 		end
 		
 		it "should erase HTTP_AUTHORIZATION" do
@@ -56,8 +64,11 @@ describe AuthApi do
 			last_request.env['HTTP_AUTHORIZATION'].should be_nil
 		end
 		
-		it "should check if toto:1234 is known to User.find" do
-			
+		it "should accept user if toto:1234 is known in User.find" do
+			User.stub(:find){[{:uid=>"toto"}]}
+			User.should_receive(:find_method).with('toto')
+			subject.result.should be_true
+			get '/'
 		end
 		
 		it "should modify env if valid user" do
