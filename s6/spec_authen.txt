@@ -1,0 +1,20 @@
+##############################################################################
+									SPECIFICATION DE L'AUTHENTIFICATION
+##############################################################################
+
+GET / :
+- dit Bonjour
+OU
+- affiche un lien vers la page d'authentification
+code response : 200
+body response : Bonjour ou Login
+
+
+POST /sessions : 
+Récupérer les paramètres login et password
+Si le login et le mot de passe sont valides, on redirige vers /protected en positionnant current_user dans la session
+
+Get /protected :
+Si le current_user est défini dans la session, on affiche un message
+Sinon, on redirige vers /sessions/new
+
