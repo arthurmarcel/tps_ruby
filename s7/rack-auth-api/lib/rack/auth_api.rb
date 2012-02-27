@@ -17,7 +17,6 @@ class AuthApi
 		#  	req = Rack::Request.new(env)
 	  base64 = env.delete('HTTP_AUTHORIZATION') if env['HTTP_AUTHORIZATION']
 	  base64.gsub!(/Basic /, "") if base64
-	  env['HTTP_AUTHORIZATION'] = nil
   	AuthApi.decode_http_authorize(base64) if base64
     status, headers, body = @app.call(env)
   end

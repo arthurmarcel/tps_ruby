@@ -41,7 +41,7 @@ describe AuthApi do
 	end
 	
 	# Cas 2 : HTTP_AUTHORIZE présent
-  context "when HTTP_AUTHORIZATION header found" do
+  context "when HTTP_AUTHORIZATION header is found" do
 		before(:all) do
 	 		basic_authorize "toto", "1234"
 		end
