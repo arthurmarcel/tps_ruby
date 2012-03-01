@@ -1,6 +1,8 @@
 $: << File.dirname(__FILE__)
 require 'database'
 
+#ActiveRecord::Migrator.run(:down, "db/migrate/", 005)
+
 ActiveRecord::Migration.verbose = true
 ActiveRecord::Migrator.migrate "db/migrate"
 
